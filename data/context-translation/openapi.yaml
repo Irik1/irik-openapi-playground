@@ -1,0 +1,360 @@
+openapi: 3.1.0
+info:
+  title: Context Translation API
+  description: API documentation for the Context Translation service
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local server
+  - url: https://api.dev.appewa.com/context-translation/v1
+    description: Dev server
+  - url: https://api.appewa.com/context-translation/v1
+    description: Prod server
+paths:
+  /healthz:
+    get:
+      summary: Health check
+      description: Check if the service is available
+      responses:
+        '200':
+          description: Service is available
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: ok
+  /translate:
+    post:
+      summary: Translate text (deprecated)
+      description: Translates the given sentence and returns its translation. This endpoint is deprecated, use the versioned endpoint instead.
+      deprecated: true
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sentence'
+      responses:
+        '200':
+          description: Translation result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Translation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /api/{api_version}/context:
+    post:
+      summary: Translate text with context
+      description: Translates the given sentence and returns its translation with context information
+      parameters:
+        - name: api_version
+          in: path
+          required: true
+          description: The version of the API
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sentence'
+      responses:
+        '200':
+          description: Translation result with context
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranslationPublicResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /translate/batch/sentences:
+    post:
+      summary: Translate batch sentences
+      description: Translates a batch of sentences from one language to another. Currently only Google Translate supports this method.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchSentences'
+      responses:
+        '200':
+          description: Batch translation results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Translations'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /translate/batch/languages:
+    post:
+      summary: Translate to multiple languages
+      description: Translates a text from one language to many languages
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchLanguages'
+      responses:
+        '200':
+          description: Translations for multiple languages
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TranslationsByLanguage'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /translate/word_by_word:
+    post:
+      summary: Translate word by word
+      description: Translates text word by word, providing detailed information for each word
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Sentence'
+      responses:
+        '200':
+          description: Word-by-word translation results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/WordCard'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+components:
+  responses:
+    BadRequestError:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Bad request
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+                example: Internal server error
+  schemas:
+    Sentence:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Text to translate
+          examples: ['Text to translate']
+        sourceLang:
+          type: string
+          description: Source language code
+          examples: ['en']
+        targetLang:
+          type: string
+          description: Target language code
+          examples: ['de']
+        providers:
+          type: array
+          items:
+            type: string
+          description: List of translation providers to use
+          examples: [['google', 'yandex']]
+          default: []
+        translationVersion:
+          type: string
+          nullable: true
+          description: Version of the translation
+          examples: ['v1']
+        context:
+          type: string
+          nullable: true
+          description: Context text before the sentence to translate
+          examples: ['Some text before the sentence to translate.']
+      required:
+        - text
+        - sourceLang
+        - targetLang
+    BatchSentences:
+      type: object
+      properties:
+        sentences:
+          type: array
+          items:
+            type: string
+          description: List of sentences to translate
+        source_lang:
+          type: string
+          description: Source language code
+        target_lang:
+          type: string
+          description: Target language code
+        providers:
+          type: array
+          items:
+            type: string
+          description: List of translation providers to use
+        context:
+          type: string
+          nullable: true
+          description: Context text
+      required:
+        - sentences
+        - source_lang
+        - target_lang
+        - providers
+    BatchLanguages:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Text to translate
+        source_lang:
+          type: string
+          description: Source language code
+        target_langs:
+          type: array
+          items:
+            type: string
+          description: List of target language codes
+        providers:
+          type: array
+          items:
+            type: string
+          description: List of translation providers to use
+        context:
+          type: string
+          nullable: true
+          description: Context text
+        use_yandex_for_ru:
+          type: boolean
+          nullable: true
+          description: Whether to use Yandex for Russian translations
+          default: true
+      required:
+        - text
+        - source_lang
+        - target_langs
+        - providers
+    Translation:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Translated text
+    TranslationPublicResponse:
+      type: object
+      properties:
+        text:
+          type: string
+          description: Original text that was translated
+          examples: ['Text that was translated']
+        translation:
+          type: string
+          description: Translation of the given text
+          examples: ['Translation of the given text']
+        offsetStart:
+          type: integer
+          description: Start offset of the translated text
+          examples: [0]
+          default: 0
+        offsetEnd:
+          type: integer
+          description: End offset of the translated text
+          examples: [10]
+          default: 0
+      required:
+        - text
+        - translation
+    Translations:
+      type: object
+      properties:
+        translations:
+          type: array
+          items:
+            type: string
+          description: List of translated texts
+      required:
+        - translations
+    TranslationsByLanguage:
+      type: object
+      properties:
+        translations:
+          type: object
+          additionalProperties:
+            type: string
+          description: Dictionary of translations by language code
+      required:
+        - translations
+    WordCard:
+      type: object
+      properties:
+        id:
+          type: string
+          description: Unique identifier for the word card
+        origin:
+          type: string
+          description: Original word
+        lemma:
+          type: string
+          description: Lemma form of the word
+        pos:
+          type: string
+          description: Part of speech
+        translation:
+          type: string
+          description: Translation of the word
+        transcription:
+          type: string
+          description: Phonetic transcription
+        audio:
+          type: string
+          description: Audio file identifier
+        start:
+          type: integer
+          description: Start position of the word in the text
+        end:
+          type: integer
+          description: End position of the word in the text
+      required:
+        - id
+        - origin
+        - lemma
+        - pos
+        - translation
+        - transcription
+        - audio
+        - start
+        - end
+    WordCards:
+      type: object
+      properties:
+        word_cards:
+          type: array
+          items:
+            $ref: '#/components/schemas/WordCard'
+          description: List of word cards
+      required:
+        - word_cards

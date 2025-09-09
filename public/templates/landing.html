@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation Hub</title>
+    <link rel="stylesheet" href="/css/landing.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🚀 API Documentation Hub</h1>
+        <p class="subtitle">Explore and interact with our comprehensive API documentation</p>
+        
+        <div class="api-grid">
+            {{#apis}}
+            <a href="/api-docs/{{api.key}}" class="api-card">
+                <div class="api-title">{{api.title}}</div>
+                <div class="api-description">
+                    {{api.description}}
+                </div>
+                <div class="api-version">v{{api.version}}</div>
+            </a>
+            {{/apis}}
+        </div>
+        
+        <div class="footer">
+            <p>Powered by Swagger UI • Built with Express.js</p>
+        </div>
+    </div>
+</body>
+</html>

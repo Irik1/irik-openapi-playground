@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui.css" />
+  <link rel="stylesheet" type="text/css" href="/css/swagger-ui.css" />
+</head>
+<body>
+  <!-- Navigation Panel -->
+  <div id="api-nav-panel">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" style="color: white; text-decoration: none; font-weight: 600; font-size: 18px;">
+          🚀 API Hub
+        </a>
+        <div class="nav-links">
+          {{#apis}}
+          <a href="/api-docs/{{api.key}}" class="nav-link {{api.active}}">
+            {{api.title}}
+          </a>
+          {{/apis}}
+        </div>
+      </div>
+      <div class="nav-right">
+        <span style="font-size: 14px; opacity: 0.9;">
+          Currently viewing: {{title}}
+        </span>
+        <a href="/" class="back-link">
+          ← Back to Hub
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Swagger UI Container -->
+  <div id="swagger-ui"></div>
+  
+  <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-bundle.js"></script>
+  <script src="https://unpkg.com/swagger-ui-dist@5.9.0/swagger-ui-standalone-preset.js"></script>
+  <script>
+    window.onload = function() {
+      const spec = {{spec}};
+      
+      const ui = SwaggerUIBundle({
+        spec: spec,
+        dom_id: '#swagger-ui',
+        deepLinking: true,
+        presets: [
+          SwaggerUIBundle.presets.apis,
+          SwaggerUIStandalonePreset
+        ],
+        plugins: [
+          SwaggerUIBundle.plugins.DownloadUrl
+        ],
+        layout: "StandaloneLayout"
+      });
+    };
+  </script>
+</body>
+</html>
