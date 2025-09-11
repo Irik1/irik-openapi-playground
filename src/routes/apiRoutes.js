@@ -43,11 +43,35 @@ const setupApiRoutes = (app, apiSpecs) => {
     });
   });
 
-  // Dynamic API endpoints to serve raw OpenAPI specs
+  // Dynamic API endpoints to serve raw OpenAPI specs from S3
   Object.keys(apiSpecs).forEach(apiKey => {
-    app.get(`/api/${apiKey}/openapi.yaml`, (req, res) => {
-      res.setHeader('Content-Type', 'application/x-yaml');
-      res.sendFile(path.join(__dirname, '../../data', apiKey, 'openapi.yaml'));
+    app.get(`/api/${apiKey}/openapi.yaml`, async (req, res) => {
+      try {
+        const { S3Client, GetObjectCommand } = require('@aws-sdk/client-s3');
+        const YAML = require('yamljs');
+        
+        const s3Client = new S3Client({
+          region: process.env.AWS_REGION || 'eu-west-1',
+          credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+          },
+        });
+        
+        const command = new GetObjectCommand({
+          Bucket: process.env.S3_BUCKET_NAME || 'ewa-documentation',
+          Key: apiSpecs[apiKey].s3Key,
+        });
+        
+        const response = await s3Client.send(command);
+        const yamlContent = await response.Body.transformToString();
+        
+        res.setHeader('Content-Type', 'application/x-yaml');
+        res.send(yamlContent);
+      } catch (error) {
+        console.error(`Error serving ${apiKey} spec:`, error.message);
+        res.status(500).json({ error: 'Failed to load API specification' });
+      }
     });
   });
 

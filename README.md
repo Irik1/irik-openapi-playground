@@ -1,15 +1,16 @@
 # API Documentation Hub
 
-A simple web application that displays API documentation from various folders using SwaggerUI. This application serves as a centralized hub for exploring and interacting with multiple OpenAPI specifications.
+A simple web application that displays API documentation from AWS S3 using SwaggerUI. This application serves as a centralized hub for exploring and interacting with multiple OpenAPI specifications stored in the cloud.
 
 ## Features
 
 - 🚀 **Modern Landing Page**: Beautiful, responsive landing page with API cards
-- 📊 **Multiple API Support**: Displays documentation for Sync API and Words API
+- 📊 **Multiple API Support**: Displays documentation for all APIs stored in S3
 - 🔍 **Interactive Documentation**: Full Swagger UI integration for testing APIs
 - 🎨 **Custom Styling**: Clean, modern UI with hover effects and animations
 - 📱 **Responsive Design**: Works on desktop and mobile devices
 - ⚡ **Health Monitoring**: Built-in health check endpoint
+- ☁️ **Cloud Integration**: Fetches OpenAPI documents from AWS S3
 
 ## Quick Start
 
@@ -17,6 +18,8 @@ A simple web application that displays API documentation from various folders us
 
 - Node.js (version 14 or higher)
 - npm or yarn
+- AWS S3 bucket with OpenAPI documents
+- AWS credentials (Access Key ID and Secret Access Key)
 
 ### Installation
 
@@ -25,15 +28,24 @@ A simple web application that displays API documentation from various folders us
 npm install
 ```
 
-2. Start the application:
+2. Set up environment variables by creating a `.env` file in the root directory:
+```bash
+# AWS S3 Configuration
+AWS_ACCESS_KEY_ID=your_access_key_here
+AWS_SECRET_ACCESS_KEY=your_secret_key_here
+AWS_REGION=eu-west-1
+S3_BUCKET_NAME=ewa-documentation
+S3_OPENAPI_PREFIX=openapi/
+```
+
+3. Start the application:
 ```bash
 npm start
 ```
 
-3. Open your browser and navigate to:
+4. Open your browser and navigate to:
    - **Main Hub**: http://localhost:3000
-   - **Sync API Docs**: http://localhost:3000/api-docs/sync
-   - **Words API Docs**: http://localhost:3000/api-docs/words
+   - **API Docs**: http://localhost:3000/api-docs/{api-name}
    - **Health Check**: http://localhost:3000/health
 
 ### Development Mode
@@ -61,13 +73,8 @@ npm run dev
 
 ```
 irik-openapi-playground/
-├── data/                     # API specifications directory
-│   ├── context-translation/
-│   │   └── openapi.yaml      # Context Translation API spec
-│   ├── sync/
-│   │   └── openapi.yaml      # Sync API specification
-│   └── words/
-│       └── openapi.yaml      # Words API specification
+├── .env                      # Environment variables (AWS credentials)
+├── .env.example              # Example environment file
 ├── src/                      # Source code modules
 │   ├── config/
 │   │   └── server.js         # Server configuration and startup
@@ -76,7 +83,7 @@ irik-openapi-playground/
 │   │   ├── errorRoutes.js    # Error handling routes
 │   │   └── index.js          # Routes index
 │   └── utils/
-│       ├── apiLoader.js      # API specification loader
+│       ├── apiLoader.js      # S3 API specification loader
 │       ├── templateEngine.js # Template rendering engine
 │       └── index.js          # Utils index
 ├── public/
@@ -95,17 +102,17 @@ irik-openapi-playground/
 
 To add a new API to the documentation hub:
 
-1. Create a new folder in the `data/` directory (e.g., `data/new-api/`)
-2. Add your `openapi.yaml` file to that folder
+1. Upload your `openapi.yaml` file to your S3 bucket under the `openapi/` prefix
+2. Organize it in a folder structure like: `openapi/{api-name}/openapi.yaml`
 3. **That's it!** The system will automatically:
-   - Discover the new API folder
+   - Discover the new API from S3
    - Load the OpenAPI specification
-   - Create documentation routes (`/api-docs/new-api`)
-   - Create raw spec endpoints (`/api/new-api/openapi.yaml`)
+   - Create documentation routes (`/api-docs/{api-name}`)
+   - Create raw spec endpoints (`/api/{api-name}/openapi.yaml`)
    - Add it to the landing page
    - Include it in the navigation panel
 
-The system is now fully dynamic and will work with any number of APIs without code changes!
+The system is now fully dynamic and will work with any number of APIs stored in S3 without code changes!
 
 ## Architecture
 
@@ -117,7 +124,7 @@ The application follows a modular architecture for better maintainability and or
 - **`src/config/server.js`** - Express app configuration and server startup
 - **`src/routes/apiRoutes.js`** - All API documentation routes
 - **`src/routes/errorRoutes.js`** - Error handling middleware
-- **`src/utils/apiLoader.js`** - Dynamic API specification loading
+- **`src/utils/apiLoader.js`** - S3 API specification loading
 - **`src/utils/templateEngine.js`** - Template rendering with loops and variables
 
 ### **Benefits of Modular Architecture:**
@@ -134,6 +141,8 @@ The application follows a modular architecture for better maintainability and or
 - **Swagger UI Express** - Swagger UI integration
 - **YAML.js** - YAML file parsing
 - **CORS** - Cross-origin resource sharing
+- **AWS SDK v3** - AWS S3 integration
+- **dotenv** - Environment variable management
 - **Nodemon** - Development auto-restart (dev dependency)
 
 ## License
