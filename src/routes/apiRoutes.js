@@ -10,7 +10,60 @@ const setupApiRoutes = (app, apiSpecs) => {
   // Landing page route
   app.get('/', (req, res) => {
     const templatePath = path.join(__dirname, '../../public/templates/landing.html');
+    
+    // Group APIs by folder
+    const apisByFolder = {};
+    Object.entries(apiSpecs).forEach(([key, api]) => {
+      let folder = api.folder || 'default';
+      
+      // If folder is empty, try to extract from API key (e.g., "crm-crm" -> "crm")
+      if (!folder || folder === '') {
+        const parts = key.split('-');
+        if (parts.length >= 2) {
+          folder = parts[0];
+        } else {
+          folder = 'default';
+        }
+      }
+      
+      if (!apisByFolder[folder]) {
+        apisByFolder[folder] = [];
+      }
+      apisByFolder[folder].push({
+        key: key,
+        title: api.title,
+        version: api.version,
+        description: api.description,
+        fileName: api.fileName
+      });
+    });
+    
+    // Generate API HTML with folder name in description
+    let apiHtml = '';
+    Object.entries(apisByFolder).forEach(([folderName, apis]) => {
+      apis.forEach(api => {
+        const folderTag = `<span class="folder-tag">${folderName}</span>`;
+        const enhancedDescription = `${folderTag} ${api.description}`;
+        
+        apiHtml += `
+          <a href="/api-docs/${api.key}" class="api-brick" data-version="${api.version}" data-title="${api.title}" data-description="${api.description}" data-folder="${folderName}">
+            <div class="brick-header">
+              <div class="api-title">${api.title}</div>
+              <div class="api-version">v${api.version}</div>
+            </div>
+            <div class="api-description">
+              ${enhancedDescription}
+            </div>
+            <div class="brick-footer">
+              <span class="view-docs">View Documentation →</span>
+            </div>
+          </a>
+        `;
+      });
+    });
+
     const data = {
+      apiHtml: apiHtml,
       apis: Object.entries(apiSpecs).map(([key, api]) => ({
         key: key,
         title: api.title,
@@ -18,6 +71,7 @@ const setupApiRoutes = (app, apiSpecs) => {
         description: api.description
       }))
     };
+    
     res.send(renderTemplate(templatePath, data));
   });
 

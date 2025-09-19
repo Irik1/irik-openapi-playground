@@ -17,20 +17,7 @@
         </header>
         
         <div class="api-wall">
-            {{#apis}}
-            <a href="/api-docs/{{api.key}}" class="api-brick" data-version="{{api.version}}" data-title="{{api.title}}" data-description="{{api.description}}">
-                <div class="brick-header">
-                    <div class="api-title">{{api.title}}</div>
-                    <div class="api-version">v{{api.version}}</div>
-                </div>
-                <div class="api-description">
-                    {{api.description}}
-                </div>
-                <div class="brick-footer">
-                    <span class="view-docs">View Documentation →</span>
-                </div>
-            </a>
-            {{/apis}}
+            {{apiHtml}}
         </div>
         
         <div class="footer">
