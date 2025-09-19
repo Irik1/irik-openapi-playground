@@ -1,0 +1,396 @@
+/* Redoc UI Custom Styles - Default Colors */
+
+/* Override Redoc default styles for better integration */
+.redoc-wrap {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif !important;
+}
+
+/* Keep body light background with dark text for readability */
+body {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+}
+
+/* Ensure Redoc container uses default styling */
+#redoc-container {
+  background-color: #ffffff !important;
+  color: #1f2937 !important;
+}
+
+/* Ensure navigation text remains white */
+#api-nav-panel,
+#api-nav-panel * {
+  color: #ffffff !important;
+}
+
+/* Custom navigation panel styles */
+#api-nav-panel {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+  color: white;
+  padding: 12px 0;
+  z-index: 1000;
+  box-shadow: 0 2px 10px rgba(79, 70, 229, 0.1);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-link {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background: rgba(255,255,255,0.1);
+  transform: translateY(-1px);
+}
+
+.nav-link.active {
+  background: rgba(255,255,255,0.2);
+  font-weight: 600;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.back-link {
+  color: white;
+  text-decoration: none;
+  padding: 8px 16px;
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 6px;
+  transition: all 0.3s ease;
+}
+
+.back-link:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.5);
+}
+
+/* Redoc container adjustments */
+#redoc-container {
+  margin-top: 80px;
+}
+
+/* Style curl examples from OpenAPI spec */
+.redoc-wrap .curl-command,
+.redoc-wrap .curl-command pre,
+.redoc-wrap .curl-command code,
+.redoc-wrap .examples .curl,
+.redoc-wrap .examples .curl pre,
+.redoc-wrap .examples .curl code,
+.redoc-wrap .examples .curl-command,
+.redoc-wrap .examples .curl-command pre,
+.redoc-wrap .examples .curl-command code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 10px 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+/* Style request snippets (curl examples) */
+.redoc-wrap .request-snippets,
+.redoc-wrap .request-snippets pre,
+.redoc-wrap .request-snippets code,
+.redoc-wrap .request-snippets .curl,
+.redoc-wrap .request-snippets .curl pre,
+.redoc-wrap .request-snippets .curl code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 10px 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+/* Force request samples to be visible */
+.redoc-wrap .request-samples,
+.redoc-wrap .request-samples .examples,
+.redoc-wrap .request-samples .examples pre,
+.redoc-wrap .request-samples .examples code {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Force examples to show for all endpoints */
+.redoc-wrap .http-verb-section .examples,
+.redoc-wrap .operation-section .examples,
+.redoc-wrap .endpoint-section .examples {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Show examples in request sections */
+.redoc-wrap .request-section .examples,
+.redoc-wrap .request-section .request-samples {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Force curl examples to be visible */
+.redoc-wrap .curl-example,
+.redoc-wrap .curl-examples,
+.redoc-wrap .examples .curl {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Make examples section more prominent */
+.redoc-wrap .examples-section,
+.redoc-wrap .examples-section h3,
+.redoc-wrap .examples-section h4 {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  margin: 20px 0 !important;
+  padding: 15px !important;
+  background: #f8f9fa !important;
+  border: 1px solid #e9ecef !important;
+  border-radius: 8px !important;
+}
+
+.redoc-wrap .examples-section h3,
+.redoc-wrap .examples-section h4 {
+  color: #495057 !important;
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin: 0 0 15px 0 !important;
+  border-bottom: 2px solid #4f46e5 !important;
+  padding-bottom: 8px !important;
+}
+
+/* Style example items */
+.redoc-wrap .example-item,
+.redoc-wrap .example-panel {
+  margin: 15px 0 !important;
+  padding: 15px !important;
+  background: #ffffff !important;
+  border: 1px solid #e9ecef !important;
+  border-radius: 6px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+}
+
+.redoc-wrap .example-item h4,
+.redoc-wrap .example-panel h4 {
+  color: #495057 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  margin: 0 0 10px 0 !important;
+  border-bottom: 1px solid #4f46e5 !important;
+  padding-bottom: 5px !important;
+}
+
+/* Style code blocks in examples */
+.redoc-wrap .examples pre,
+.redoc-wrap .examples code,
+.redoc-wrap .examples .highlight-code,
+.redoc-wrap .examples .highlight-code pre,
+.redoc-wrap .examples .highlight-code code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 10px 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+/* Force examples section to be visible */
+.redoc-wrap .examples {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+/* Style request examples specifically */
+.redoc-wrap .request-samples .examples pre,
+.redoc-wrap .request-samples .examples code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 10px 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+/* Style multiple language examples in separate panels */
+.redoc-wrap .examples {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 15px !important;
+  margin: 20px 0 !important;
+}
+
+.redoc-wrap .examples .example-item,
+.redoc-wrap .examples .example-panel {
+  flex: 1 !important;
+  min-width: 300px !important;
+  background: #f8f9fa !important;
+  border: 1px solid #e9ecef !important;
+  border-radius: 8px !important;
+  padding: 20px !important;
+  margin: 0 !important;
+}
+
+.redoc-wrap .examples .example-item h4,
+.redoc-wrap .examples .example-panel h4 {
+  margin: 0 0 15px 0 !important;
+  color: #495057 !important;
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  border-bottom: 2px solid #4f46e5 !important;
+  padding-bottom: 8px !important;
+}
+
+.redoc-wrap .examples .example-item pre,
+.redoc-wrap .examples .example-item code,
+.redoc-wrap .examples .example-panel pre,
+.redoc-wrap .examples .example-panel code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+  overflow-x: auto !important;
+}
+
+/* Style specific language examples */
+.redoc-wrap .examples .curl,
+.redoc-wrap .examples .curl pre,
+.redoc-wrap .examples .curl code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+.redoc-wrap .examples .javascript,
+.redoc-wrap .examples .javascript pre,
+.redoc-wrap .examples .javascript code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+.redoc-wrap .examples .python,
+.redoc-wrap .examples .python pre,
+.redoc-wrap .examples .python code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+.redoc-wrap .examples .java,
+.redoc-wrap .examples .java pre,
+.redoc-wrap .examples .java code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+.redoc-wrap .examples .php,
+.redoc-wrap .examples .php pre,
+.redoc-wrap .examples .php code {
+  background: #1a1a1a !important;
+  color: #ffffff !important;
+  border: 1px solid #333333 !important;
+  font-family: 'Monaco', 'Consolas', 'Courier New', monospace !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 15px !important;
+  border-radius: 6px !important;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    gap: 15px;
+    padding: 15px 20px;
+  }
+  
+  .nav-left {
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+  }
+  
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .nav-right {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  #redoc-container {
+    margin-top: 120px;
+  }
+}

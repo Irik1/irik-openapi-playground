@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{title}}</title>
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/redoc@2.1.3/bundles/redoc.standalone.css" />
+  <link rel="stylesheet" type="text/css" href="/css/redoc-ui.css" />
+  <link rel="stylesheet" type="text/css" href="/css/api-docs.css" />
+</head>
+<body>
+  <!-- Navigation Panel -->
+  <div id="api-nav-panel">
+    <div class="nav-container">
+      <div class="nav-left">
+        <a href="/" style="color: white; text-decoration: none; font-weight: 600; font-size: 18px;">
+          🚀 API Hub
+        </a>
+        <div class="api-selector">
+          <select id="apiSelect" class="api-dropdown">
+            <option value="">Select API...</option>
+            {{#apis}}
+            <option value="/api-docs/{{api.key}}" {{#api.active}}selected{{/api.active}}>
+              {{api.title}}
+            </option>
+            {{/apis}}
+          </select>
+        </div>
+      </div>
+      <div class="nav-right">
+        <div class="current-api">
+          <span class="current-label">Currently viewing:</span>
+          <span class="current-title">{{title}}</span>
+        </div>
+        <a href="/" class="back-link">
+          ← Back to Hub
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Redoc Container -->
+  <div id="redoc-container"></div>
+  
+  <script src="https://unpkg.com/redoc@2.1.3/bundles/redoc.standalone.js"></script>
+  <script>
+    window.onload = function() {
+      const spec = {{spec}};
+      
+      // API dropdown functionality
+      const apiSelect = document.getElementById('apiSelect');
+      apiSelect.addEventListener('change', function() {
+        if (this.value) {
+          window.location.href = this.value;
+        }
+      });
+      
+      // Remove any existing floating panels
+      function removeFloatingPanels() {
+        const existingPanel = document.getElementById('curl-examples-panel');
+        if (existingPanel) {
+          existingPanel.remove();
+        }
+      }
+      
+      Redoc.init(spec, {
+        scrollYOffset: 80, // Account for fixed navigation
+        hideDownloadButton: false,
+        hideHostname: false,
+        hideLoading: false,
+        nativeScrollbars: false,
+        // Enable request and response samples
+        hideRequestPayloadSample: false,
+        hideResponsePayloadSample: false,
+        showRequestHeaders: true,
+        showResponseHeaders: true,
+        // Additional options for better display
+        disableSearch: false,
+        searchMaxDepth: 10,
+        jsonSampleExpandLevel: 2,
+        // Ensure examples are shown
+        expandResponses: "all",
+        expandSingleSchemaField: true,
+        showObjectSchemaExamples: true,
+        sortPropsAlphabetically: true
+      }, document.getElementById('redoc-container'));
+      
+      // Remove any floating panels that might exist
+      removeFloatingPanels();
+    };
+  </script>
+</body>
+</html>
