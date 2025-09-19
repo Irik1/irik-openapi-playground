@@ -8,24 +8,90 @@
 </head>
 <body>
     <div class="container">
-        <h1>🚀 API Documentation Hub</h1>
-        <p class="subtitle">Explore and interact with our comprehensive API documentation</p>
+        <header class="main-header">
+            <h1>🚀 API Documentation Hub</h1>
+            <p class="subtitle">Explore and interact with our comprehensive API documentation</p>
+            <div class="search-container">
+                <input type="text" id="searchInput" placeholder="Search APIs..." class="search-input">
+                <div class="filter-tags">
+                    <button class="filter-tag active" data-filter="all">All APIs</button>
+                    <button class="filter-tag" data-filter="v1">v1 APIs</button>
+                    <button class="filter-tag" data-filter="v2">v2 APIs</button>
+                    <button class="filter-tag" data-filter="v3">v3+ APIs</button>
+                </div>
+            </div>
+        </header>
         
-        <div class="api-grid">
+        <div class="api-wall">
             {{#apis}}
-            <a href="/api-docs/{{api.key}}" class="api-card">
-                <div class="api-title">{{api.title}}</div>
+            <a href="/api-docs/{{api.key}}" class="api-brick" data-version="{{api.version}}" data-title="{{api.title}}" data-description="{{api.description}}">
+                <div class="brick-header">
+                    <div class="api-title">{{api.title}}</div>
+                    <div class="api-version">v{{api.version}}</div>
+                </div>
                 <div class="api-description">
                     {{api.description}}
                 </div>
-                <div class="api-version">v{{api.version}}</div>
+                <div class="brick-footer">
+                    <span class="view-docs">View Documentation →</span>
+                </div>
             </a>
             {{/apis}}
         </div>
         
         <div class="footer">
-            <p>Powered by Swagger UI • Built with Express.js</p>
+            <p>Powered by Redoc • Built with Express.js</p>
         </div>
     </div>
+    
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const bricks = document.querySelectorAll('.api-brick');
+            
+            bricks.forEach(brick => {
+                const title = brick.dataset.title.toLowerCase();
+                const description = brick.dataset.description.toLowerCase();
+                
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    brick.style.display = 'block';
+                } else {
+                    brick.style.display = 'none';
+                }
+            });
+        });
+        
+        // Filter functionality
+        document.querySelectorAll('.filter-tag').forEach(tag => {
+            tag.addEventListener('click', function() {
+                // Update active state
+                document.querySelectorAll('.filter-tag').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                const filter = this.dataset.filter;
+                const bricks = document.querySelectorAll('.api-brick');
+                
+                bricks.forEach(brick => {
+                    if (filter === 'all') {
+                        brick.style.display = 'block';
+                    } else {
+                        const version = brick.dataset.version;
+                        const versionMajor = version.split('.')[0];
+                        
+                        if (filter === 'v1' && versionMajor === '1') {
+                            brick.style.display = 'block';
+                        } else if (filter === 'v2' && versionMajor === '2') {
+                            brick.style.display = 'block';
+                        } else if (filter === 'v3' && parseInt(versionMajor) >= 3) {
+                            brick.style.display = 'block';
+                        } else {
+                            brick.style.display = 'none';
+                        }
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

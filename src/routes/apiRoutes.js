@@ -21,10 +21,10 @@ const setupApiRoutes = (app, apiSpecs) => {
     res.send(renderTemplate(templatePath, data));
   });
 
-  // Dynamic Swagger UI routes
+  // Dynamic API documentation routes
   Object.keys(apiSpecs).forEach(apiKey => {
     app.get(`/api-docs/${apiKey}`, (req, res) => {
-      const templatePath = path.join(__dirname, '../../public/templates/swagger-ui.html');
+      const templatePath = path.join(__dirname, '../../public/templates/api-docs.html');
       const api = apiSpecs[apiKey];
       
       // Create navigation data for all APIs

@@ -9,82 +9,219 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  padding: 2rem 0;
 }
 
 .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.main-header {
+  text-align: center;
+  margin-bottom: 3rem;
   background: white;
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
   padding: 3rem;
-  max-width: 800px;
-  width: 90%;
-  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1);
 }
 
 h1 {
   color: #333;
   margin-bottom: 1rem;
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: 700;
 }
 
 .subtitle {
   color: #666;
-  margin-bottom: 3rem;
-  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  font-size: 1.3rem;
 }
 
-.api-grid {
+.search-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.search-input {
+  width: 100%;
+  padding: 1rem 1.5rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.filter-tags {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.filter-tag {
+  padding: 0.5rem 1.5rem;
+  border: 2px solid #e1e5e9;
+  background: white;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  color: #666;
+}
+
+.filter-tag:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.filter-tag.active {
+  background: #667eea;
+  border-color: #667eea;
+  color: white;
+}
+
+.api-wall {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
-  margin-top: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3rem;
 }
 
-.api-card {
-  background: #f8f9fa;
+.api-brick {
+  background: white;
   border-radius: 15px;
-  padding: 2rem;
+  padding: 1.5rem;
   transition: all 0.3s ease;
   border: 2px solid transparent;
   text-decoration: none;
   color: inherit;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
-.api-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+.api-brick:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
   border-color: #667eea;
 }
 
+.brick-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
 .api-title {
-  font-size: 1.5rem;
+  font-size: 1.4rem;
   font-weight: 600;
   color: #333;
-  margin-bottom: 1rem;
+  flex: 1;
+  margin-right: 1rem;
+  line-height: 1.3;
+}
+
+.api-version {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .api-description {
   color: #666;
   margin-bottom: 1.5rem;
   line-height: 1.6;
+  flex: 1;
+  font-size: 0.95rem;
 }
 
-.api-version {
-  background: #667eea;
-  color: white;
-  padding: 0.5rem 1rem;
-  border-radius: 20px;
+.brick-footer {
+  margin-top: auto;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.view-docs {
+  color: #667eea;
+  font-weight: 600;
   font-size: 0.9rem;
-  font-weight: 500;
-  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.api-brick:hover .view-docs {
+  color: #764ba2;
+  transform: translateX(5px);
 }
 
 .footer {
-  margin-top: 3rem;
-  color: #999;
+  text-align: center;
+  color: white;
   font-size: 0.9rem;
+  background: rgba(255,255,255,0.1);
+  padding: 2rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+  
+  .main-header {
+    padding: 2rem;
+  }
+  
+  h1 {
+    font-size: 2.2rem;
+  }
+  
+  .api-wall {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .filter-tags {
+    gap: 0.5rem;
+  }
+  
+  .filter-tag {
+    padding: 0.4rem 1rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .brick-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .api-title {
+    margin-right: 0;
+    margin-bottom: 0.5rem;
+  }
+  
+  .api-version {
+    align-self: flex-start;
+  }
 }
