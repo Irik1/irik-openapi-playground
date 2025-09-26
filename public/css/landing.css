@@ -45,6 +45,15 @@ h1 {
   margin: 0 auto;
 }
 
+.environment-selector {
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
 .search-input {
   width: 100%;
   padding: 1rem 1.5rem;
@@ -56,6 +65,43 @@ h1 {
 }
 
 .search-input:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.environment-label {
+  color: #666;
+  font-weight: 600;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.environment-dropdown {
+  padding: 0.8rem 1.2rem;
+  border: 2px solid #e1e5e9;
+  border-radius: 25px;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+  background: white;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+  min-width: 150px;
+}
+
+.environment-dropdown:hover {
+  border-color: #667eea;
+  color: #667eea;
+}
+
+.environment-dropdown:focus {
   outline: none;
   border-color: #667eea;
   box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
@@ -221,6 +267,15 @@ h1 {
   .filter-tag {
     padding: 0.4rem 1rem;
     font-size: 0.9rem;
+  }
+  
+  .environment-selector {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .environment-dropdown {
+    min-width: 120px;
   }
 }
 

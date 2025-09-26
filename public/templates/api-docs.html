@@ -14,7 +14,7 @@
     <div class="nav-container">
       <div class="nav-left">
         <a href="/" style="color: white; text-decoration: none; font-weight: 600; font-size: 18px;">
-          🚀 API Hub
+          API Hub
         </a>
         <div class="api-selector">
           <select id="apiSelect" class="api-dropdown">
@@ -24,6 +24,12 @@
               {{api.title}}
             </option>
             {{/apis}}
+          </select>
+        </div>
+        <div class="environment-selector">
+          <select id="environmentSelect" class="environment-dropdown">
+            <option value="development">Development</option>
+            <option value="production" selected>Production</option>
           </select>
         </div>
       </div>
@@ -54,6 +60,79 @@
           window.location.href = this.value;
         }
       });
+      
+      // Environment selector functionality
+      const environmentSelect = document.getElementById('environmentSelect');
+      if (environmentSelect) {
+        // Load saved environment preference
+        const savedEnvironment = localStorage.getItem('selectedEnvironment') || 'production';
+        environmentSelect.value = savedEnvironment;
+        
+        environmentSelect.addEventListener('change', function() {
+          const selectedEnvironment = this.value;
+          localStorage.setItem('selectedEnvironment', selectedEnvironment);
+          
+          // Update current page URL based on environment
+          updateCurrentPageUrl(selectedEnvironment);
+          
+          // Show environment change notification
+          showEnvironmentNotification(selectedEnvironment);
+        });
+      }
+      
+      function updateCurrentPageUrl(environment) {
+        const currentUrl = window.location.pathname;
+        let newUrl = currentUrl;
+        
+        if (environment === 'development') {
+          // Replace production URLs with development URLs
+          newUrl = currentUrl.replace(/\/api-docs\//, '/api-docs-dev/');
+        } else {
+          // Replace development URLs with production URLs
+          newUrl = currentUrl.replace(/\/api-docs-dev\//, '/api-docs/');
+        }
+        
+        if (newUrl !== currentUrl) {
+          window.location.href = newUrl;
+        }
+      }
+      
+      function showEnvironmentNotification(environment) {
+        // Create notification element
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+          position: fixed;
+          top: 20px;
+          right: 20px;
+          background: ${environment === 'development' ? '#f59e0b' : '#10b981'};
+          color: white;
+          padding: 12px 20px;
+          border-radius: 8px;
+          font-weight: 600;
+          z-index: 10000;
+          box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+          transform: translateX(100%);
+          transition: transform 0.3s ease;
+        `;
+        notification.textContent = `Switched to ${environment.charAt(0).toUpperCase() + environment.slice(1)} environment`;
+        
+        document.body.appendChild(notification);
+        
+        // Animate in
+        setTimeout(() => {
+          notification.style.transform = 'translateX(0)';
+        }, 100);
+        
+        // Remove after 3 seconds
+        setTimeout(() => {
+          notification.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            if (notification.parentNode) {
+              notification.parentNode.removeChild(notification);
+            }
+          }, 300);
+        }, 3000);
+      }
       
       // Remove any existing floating panels
       function removeFloatingPanels() {

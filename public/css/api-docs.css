@@ -9,6 +9,7 @@
   padding: 12px 0;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(79, 70, 229, 0.1);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 .nav-container {
@@ -18,12 +19,17 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 .nav-left {
   display: flex;
   align-items: center;
   gap: 30px;
+}
+
+.environment-selector {
+  position: relative;
 }
 
 .api-selector {
@@ -47,6 +53,7 @@
   background-position: right 12px center;
   background-size: 16px;
   padding-right: 40px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 .api-dropdown:hover {
@@ -67,6 +74,44 @@
   padding: 10px;
 }
 
+.environment-dropdown {
+  background: rgba(255,255,255,0.15);
+  border: 2px solid rgba(255,255,255,0.3);
+  color: white;
+  padding: 10px 15px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-width: 120px;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 16px;
+  padding-right: 40px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.environment-dropdown:hover {
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.5);
+}
+
+.environment-dropdown:focus {
+  outline: none;
+  background: rgba(255,255,255,0.25);
+  border-color: rgba(255,255,255,0.7);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
+}
+
+.environment-dropdown option {
+  background: #4f46e5;
+  color: white;
+  padding: 10px;
+}
+
 .nav-right {
   display: flex;
   align-items: center;
@@ -78,6 +123,7 @@
   flex-direction: column;
   align-items: flex-end;
   text-align: right;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 .current-label {
@@ -103,6 +149,7 @@
   border-radius: 6px;
   transition: all 0.3s ease;
   white-space: nowrap;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
 }
 
 .back-link:hover {
@@ -136,6 +183,10 @@
   .api-dropdown {
     min-width: 150px;
   }
+  
+  .environment-dropdown {
+    min-width: 100px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -146,6 +197,10 @@
   }
   
   .api-dropdown {
+    min-width: 100%;
+  }
+  
+  .environment-dropdown {
     min-width: 100%;
   }
 }
